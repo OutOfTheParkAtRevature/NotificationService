@@ -22,8 +22,8 @@ stages:
             inputs:
               SonarCloud: 'sonarcloud connection'
               organization: 121420-dotnet-sonarcloud
-              projectKey: notification-service
-              projectName: notification-service
+              projectKey: NotificationServcie
+              projectName: NotificationService
               scannerMode: MSBuild
               extraProperties: |
                 sonar.exclusions=**/obj/**,**/lib/**,**/*.dll
