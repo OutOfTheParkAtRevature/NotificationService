@@ -80,22 +80,6 @@ namespace Repository.Tests
 
                 Assert.Empty(await r.GetNotifications());
             }
-            //WHY DOESN'T THIS WORK!?
-            //using (var context = new NotificationContext(options))
-            //{
-            //    Repo r = new Repo(context, new NullLogger<Repo>());
-
-
-
-            //    Assert.NotEmpty(await r.GetNotifications());
-            //    await r.CommitSave();
-
-            //    await r.DeleteNotification(notification);
-
-
-            //    Assert.Empty(await r.GetNotifications());
-
-            //}
         }
 
     }
