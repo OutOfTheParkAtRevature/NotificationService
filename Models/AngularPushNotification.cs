@@ -23,11 +23,6 @@ namespace Model
             }
         }
 
-        private static readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings
-        {
-            ContractResolver = new CamelCasePropertyNamesContractResolver()
-        };
-
         public string Title { get; set; }
 
         public string Body { get; set; }
@@ -40,6 +35,23 @@ namespace Model
 
         public IList<NotificationAction> Actions { get; set; } = new List<NotificationAction>();
 
+        // Following logic must remain in this model.
+
+        /// <summary>
+        /// Configures settings for JSON serializer.
+        /// </summary>
+        private static readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
+        };
+
+        /// <summary>
+        /// Converts a notification to a push message which can be sent to the angular front end.
+        /// </summary>
+        /// <param name="topic"></param>
+        /// <param name="timeToLive"></param>
+        /// <param name="urgency"></param>
+        /// <returns></returns>
         public PushMessage ToPushMessage(string topic = null, int? timeToLive = null, PushMessageUrgency urgency = PushMessageUrgency.Normal)
         {
             return new PushMessage(WRAPPER_START + JsonConvert.SerializeObject(this, _jsonSerializerSettings) + WRAPPER_END)
