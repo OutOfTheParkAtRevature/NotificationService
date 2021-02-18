@@ -3,13 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService", "NotificationService\NotificationService.csproj", "{FBD54288-5E4B-4E0D-9FCF-A5DE7E0D3FCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotificationService", "NotificationService\NotificationService.csproj", "{FBD54288-5E4B-4E0D-9FCF-A5DE7E0D3FCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Logic\Service.csproj", "{A51959B1-1BD3-40DF-BD94-2009FC4A40F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Logic\Service.csproj", "{A51959B1-1BD3-40DF-BD94-2009FC4A40F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Models\Model.csproj", "{54E6F6F6-3B20-4DAC-A38B-66CF8966420C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Models\Model.csproj", "{54E6F6F6-3B20-4DAC-A38B-66CF8966420C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repo\Repository.csproj", "{7427DC49-352F-4A9F-B324-5226175A76FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repo\Repository.csproj", "{7427DC49-352F-4A9F-B324-5226175A76FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model.Tests", "Model.Tests\Model.Tests.csproj", "{2702FD9F-A490-481B-9998-29F82E259058}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Tests", "Service.Tests\Service.Tests.csproj", "{B04D69CD-D6DB-44B8-8228-45B381B176EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.Tests", "Repository.Tests\Repository.Tests.csproj", "{E204E141-FD86-4677-AD0E-10C414F9627C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Tests", "NotificationService.Tests\NotificationService.Tests.csproj", "{993C8772-3696-4F07-A053-0CC5C056383A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +41,22 @@ Global
 		{7427DC49-352F-4A9F-B324-5226175A76FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7427DC49-352F-4A9F-B324-5226175A76FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7427DC49-352F-4A9F-B324-5226175A76FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2702FD9F-A490-481B-9998-29F82E259058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2702FD9F-A490-481B-9998-29F82E259058}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2702FD9F-A490-481B-9998-29F82E259058}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2702FD9F-A490-481B-9998-29F82E259058}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B04D69CD-D6DB-44B8-8228-45B381B176EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B04D69CD-D6DB-44B8-8228-45B381B176EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B04D69CD-D6DB-44B8-8228-45B381B176EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B04D69CD-D6DB-44B8-8228-45B381B176EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E204E141-FD86-4677-AD0E-10C414F9627C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E204E141-FD86-4677-AD0E-10C414F9627C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E204E141-FD86-4677-AD0E-10C414F9627C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E204E141-FD86-4677-AD0E-10C414F9627C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{993C8772-3696-4F07-A053-0CC5C056383A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{993C8772-3696-4F07-A053-0CC5C056383A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{993C8772-3696-4F07-A053-0CC5C056383A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{993C8772-3696-4F07-A053-0CC5C056383A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
