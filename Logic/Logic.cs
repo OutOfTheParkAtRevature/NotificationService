@@ -39,7 +39,7 @@ namespace Logic
                 _pushClient.DefaultAuthentication = new VapidAuthentication(options.Value.PublicKey, options.Value.PrivateKey)
                 {
                     // TODO: Update to P3 website.
-                    Subject = "https://angular-pushnotifications.demo.io"
+                    Subject = "https://localhost:4200"
                 };
             }
 

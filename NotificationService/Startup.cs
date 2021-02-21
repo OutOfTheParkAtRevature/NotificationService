@@ -26,8 +26,10 @@ namespace NotificationService
             services.AddSpaStaticFiles(configuration =>
             {
                 /* Important: FrontEnd is where Angular CLI project resides */
-                configuration.RootPath = "FrontEnd/dist";
+                configuration.RootPath = "../../Frontend/dist";
             });
+
+            services.AddAuthorization();
 
             var identityUrl = Configuration.GetValue<string>("IdentityUrl");
             var jwtSettings = Configuration.GetSection("JwtSettings");
@@ -72,7 +74,7 @@ namespace NotificationService
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "FrontEnd";
+                spa.Options.SourcePath = "../../Frontend";
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
