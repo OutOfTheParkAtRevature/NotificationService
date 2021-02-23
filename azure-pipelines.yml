@@ -4,6 +4,11 @@ trigger:
 pr:
 - staging
 
+variables:
+  notificationRepository: 'notification-service'
+  tag: 'latest'
+  imagePullSecret: 'notification-service'
+
 pool:
   vmImage: windows-latest
 
@@ -12,6 +17,8 @@ stages:
     displayName: Analyze
     jobs:
       - job: analyze
+        pool:
+          vmImage: windows-latest
         steps:
           - task: DotNetCoreCLI@2
             displayName: Restore Solution
@@ -26,7 +33,7 @@ stages:
               projectName: OutOfTheParkNotificationService
               scannerMode: MSBuild
               extraProperties: |
-                sonar.exclusions=**/obj/**,**/lib/**,**/*.dll,**/Startup.cs,**/Program.cs
+                sonar.exclusions=**/obj/**,**/lib/**,**/*.dll,**/Startup.cs,**/Program.cs,**/Migrations/**
           - script: dotnet build --configuration Release
             displayName: Analyze Build
           - task: DotNetCoreCLI@2
@@ -43,3 +50,78 @@ stages:
             displayName: Run Code Analysis
           - task: SonarCloudPublish@1
             displayName: Publish Code Analysis
+
+
+  - stage: 'Build'
+    displayName: Build and push
+    jobs:
+      - job: Build
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: Docker@2
+            inputs:
+              command: buildAndPush
+              buildContext: $(Build.Repository.LocalPath)
+              repository: $(notificationRepository)
+              dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+              containerRegistry: 'Container Registry Connection'
+              tags: |
+                $(tag)
+          
+          - publish: '$(Build.SourcesDirectory)/manifests'
+            artifact: manifests
+  - stage: 'Deploy'
+    displayName: 'Deploy the containers'
+    dependsOn: Build
+    jobs:
+    - deployment: Deploy
+      displayName: Deploy
+      pool:
+        vmImage: 'ubuntu-latest'
+      environment: 'spike.default'
+      variables:
+      - group: Release
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - download: current
+              artifact: manifests
+
+            - task: KubectlInstaller@0
+              inputs:
+                kubectlVersion: 'latest'
+                
+            - task: Kubernetes@1
+              inputs:
+                connectionType: 'Kubernetes Service Connection'
+                kubernetesServiceEndpoint: 'Kubernetes Cluster Connection'
+                namespace: 'default'
+                command: 'login'
+
+            - task: KubernetesManifest@0
+              displayName: Create imagePullSecret
+              inputs:
+                action: createSecret
+                secretName: $(imagePullSecret)
+                dockerRegistryEndpoint: 'Container Registry Connection'
+                kubernetesServiceConnection: 'Kubernetes Cluster Connection'
+                namespace: 'default'
+
+            - task: KubernetesManifest@0
+              displayName: Deploy to Kubernetes cluster
+              inputs:
+                action: deploy
+                kubernetesServiceConnection: 'Kubernetes Cluster Connection'
+                namespace: 'default'
+                manifests: |
+                  $(Pipeline.Workspace)/manifests/deployment.yml
+                imagePullSecrets: |
+                  $(imagePullSecret)
+                containers: |
+                  $(RegistryName)/$(notificationRepository):$(tag)
+
+            - task: Kubernetes@1
+              inputs:
+                command: 'logout'
