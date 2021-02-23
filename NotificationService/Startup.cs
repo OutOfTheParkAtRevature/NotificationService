@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.OpenApi.Models;
+using Model;
 
 namespace NotificationService
 {
@@ -22,13 +23,24 @@ namespace NotificationService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
+
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
             {
-                /* Important: FrontEnd is where Angular CLI project resides */
-                configuration.RootPath = "../../Frontend/dist";
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "NET5SignalR", Version = "v1" });
             });
 
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder => {
+                builder
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .WithOrigins("http://localhost:4200");
+            }));
+
+            services.AddSignalR();
+
+            // JWT Authorization
             services.AddAuthorization();
 
             var identityUrl = Configuration.GetValue<string>("IdentityUrl");
@@ -57,6 +69,8 @@ namespace NotificationService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NET5SignalR v1"));
             }
             else
             {
@@ -66,19 +80,21 @@ namespace NotificationService
             }
 
             app.UseAuthentication();
-            app.UseAuthorization();
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
 
-            app.UseSpa(spa =>
+            app.UseRouting();
+
+            app.UseCors("CorsPolicy");
+
+            app.UseEndpoints(endpoints =>
             {
-                spa.Options.SourcePath = "../../Frontend";
-                if (env.IsDevelopment())
-                {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
+                endpoints.MapHub<BroadcastHub>("/notify");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
             });
         }
     }

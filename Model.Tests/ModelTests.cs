@@ -31,9 +31,9 @@ namespace Model.Tests
         {
             var notification = new Notification
             {
-                NotificationID=1,
-                MessageID=1,
-                Status="okay"
+                NotificationID= new Guid(),
+                Service="Message",
+                TransactionType="Post"
             };
 
             var errorcount = ValidateModel(notification).Count;

@@ -28,9 +28,9 @@ namespace Repository.Tests
                 Repo r = new Repo(context, new NullLogger<Repo>());
                 var notification = new Notification
                 {
-                    NotificationID = 1,
-                    MessageID = 1,
-                    Status = "okay"
+                    NotificationID = new Guid(),
+                    Service = "Message",
+                    TransactionType = "Post"
                 };
 
                 r.notifications.Add(notification);
@@ -56,9 +56,9 @@ namespace Repository.Tests
 
             var notification = new Notification
             {
-                NotificationID = 1,
-                MessageID = 2,
-                Status = "okay"
+                NotificationID = new Guid(),
+                Service = "Message",
+                TransactionType = "Post"
             };
 
             using (var context = new NotificationContext(options))

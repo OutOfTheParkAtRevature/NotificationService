@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,13 +10,12 @@ namespace Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [DisplayName("Notification ID")]
-        public int NotificationID { get; set; }
-        // [ForeignKey("MessageID")]
-        [DisplayName("Message ID")]
-        public int MessageID { get; set; }
-        [DisplayName("Status")]
-        public string Status { get; set; }
-
-        // Might need an endpoint and set of keys
+        public Guid NotificationID { get; set; }
+        // This will be like "message", "equipment", etc.
+        [DisplayName("Service Requested")]
+        public string Service {get;set;}
+        // This will be like "added", "edited", etc.
+        [DisplayName("Transaction Type")]
+        public string TransactionType { get; set; }
     }
 }
