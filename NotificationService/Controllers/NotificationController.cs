@@ -58,7 +58,9 @@ namespace NotificationService.Controllers
         {
             await _notificationContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE Notification");
             await _notificationContext.SaveChangesAsync();
+            // This broadcasts messages to all users logged in
             await _hubContext.Clients.All.BroadcastMessage();
+
             // TODO: change 'someuser' to target specific logged in user
             await _hubContext.Clients.User("SomeUser").BroadcastMessage();
 
