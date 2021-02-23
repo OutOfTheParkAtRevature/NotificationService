@@ -10,7 +10,7 @@ namespace Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [DisplayName("Notification ID")]
-        public Guid NotificationID { get; set; }
+        public Guid NotificationID { get; set; } = new Guid();
         // This will be like "message", "equipment", etc.
         [DisplayName("Service Requested")]
         public string Service {get;set;}
