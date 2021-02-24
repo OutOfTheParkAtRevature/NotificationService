@@ -54,15 +54,16 @@ namespace NotificationService.Controllers
         // DELETE: api/Notifications/deletenotifications  
         [HttpDelete]
         [Route("deletenotifications")]
-        public async Task<IActionResult> DeleteNotifications()
+        public async Task<IActionResult> DeleteNotifications(string userId)
         {
+            // any time the 
             await _notificationContext.Database.ExecuteSqlRawAsync("TRUNCATE TABLE Notification");
             await _notificationContext.SaveChangesAsync();
             // This broadcasts messages to all users logged in
-            await _hubContext.Clients.All.BroadcastMessage();
+            // await _hubContext.Clients.All.BroadcastMessage();
 
-            // TODO: change 'someuser' to target specific logged in user
-            await _hubContext.Clients.User("SomeUser").BroadcastMessage();
+            // This broadcasts to a particular user
+            await _hubContext.Clients.User(userId).BroadcastMessage();
 
             return NoContent();
         }
