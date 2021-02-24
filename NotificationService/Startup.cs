@@ -35,7 +35,7 @@ namespace NotificationService
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()
-                .WithOrigins("http://localhost:4200");
+                .AllowAnyOrigin();
             }));
 
             services.AddSignalR();
