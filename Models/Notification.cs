@@ -17,5 +17,7 @@ namespace Model
         // This will be like "added", "edited", etc.
         [DisplayName("Transaction Type")]
         public string TransactionType { get; set; }
+        [DisplayName("User ID")]
+        public string UserID { get; set; }
     }
 }

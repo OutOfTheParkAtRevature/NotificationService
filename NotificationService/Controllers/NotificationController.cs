@@ -25,9 +25,10 @@ namespace NotificationService.Controllers
         // GET: api/Notifications/notificationcount  
         [Route("notificationcount")]
         [HttpGet]
-        public async Task<ActionResult<NotificationCountResult>> GetNotificationCount()
+        public async Task<ActionResult<NotificationCountResult>> GetNotificationCount(string userId)
         {
             var count = (from n in _notificationContext.Notifications
+                         where n.UserID == userId
                          select n).CountAsync();
             NotificationCountResult result = new NotificationCountResult
             {
@@ -39,10 +40,11 @@ namespace NotificationService.Controllers
         // GET: api/Notifications/notificationresult  
         [Route("notificationresult")]
         [HttpGet]
-        public async Task<ActionResult<List<NotificationResult>>> GetNotificationMessage()
+        public async Task<ActionResult<List<NotificationResult>>> GetNotificationMessage(string userId)
         {
             var results = from not in _notificationContext.Notifications
                           orderby not.Service descending
+                          where not.UserID == userId
                           select new NotificationResult
                           {
                               Service = not.Service,
