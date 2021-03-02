@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: notification-service
-          image: outofthepark15226.azurecr.io/notification-service
+          image: outoftheparkacr.azurecr.io/notification-service
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -31,27 +31,11 @@ metadata:
   name: notification-service-deployment
 spec:
   ports:
-    - name: notification-service
+    - name: http
+      protocol: TCP
       port: 80
-      targetPort: notif-http
+      targetPort: 80
   selector:
     app: notification-service
-  type: LoadBalancer
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: notification-service-ingress
-  annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-spec:
-  rules:
-  - host: notification-service.1c50b018f5784721b39b.eastus.aksapp.io
-    http:
-      paths:
-      - backend:
-          serviceName: notification-service-deployment
-          servicePort: 80
-        path: /notification-service(/|$)(.*)
+  type: ClusterIP
       
